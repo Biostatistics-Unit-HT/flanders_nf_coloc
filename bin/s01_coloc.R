@@ -1,6 +1,9 @@
 suppressMessages(library(optparse))
 suppressMessages(library(data.table))
-suppressMessages(library(pleisol))
+suppressMessages(library(flanders))
+suppressMessages(library(zellkonverter))
+suppressMessages(library(SingleCellExperiment))
+suppressMessages(library(scRNAseq))
 
 # Get arguments specified in the sbatch
 option_list <- list(
@@ -13,7 +16,8 @@ opt = parse_args(opt_parser);
 
 ######  LOAD DATA   ######
 
-ad <- anndata::read_h5ad(opt$annData)
+# ad <- anndata::read_h5ad(opt$annData)
+ad <- sce <- readH5AD(opt$annData, reader = "R")
 
 coloc_guide_table <- fread(opt$coloc_guide_table)
 

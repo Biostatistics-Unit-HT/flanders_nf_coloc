@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 process COLOC {
-  conda '/ssu/bsssu/conda_envs_bsssu/pleisol'
+  conda '/ssu/bsssu/conda_envs_bsssu/flanders_r'
 
   // Define input
   input:
