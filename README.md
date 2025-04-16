@@ -1,7 +1,7 @@
 # flandeRs
 
 ## create conda environment
-
+```bash
 mamba create -p /ssu/bsssu/conda_envs_bsssu/flanders_r_test \
     -c conda-forge -c bioconda -c R \
     r-base=4.4 \
@@ -15,6 +15,7 @@ mamba create -p /ssu/bsssu/conda_envs_bsssu/flanders_r_test \
     r-anndata=0.7.5.6 \
     r-matrix=1.7_3 \
     r-optparse=1.7.5
+```
 
 ```bash
 #!/bin/bash
