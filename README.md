@@ -1,21 +1,51 @@
-# flandeRs
+## 🚀 Usage: Colocalization with Existing AnnData
 
-## create conda environment
+This pipeline wraps the `flanders` R package to perform fast and scalable colocalization analysis on precomputed AnnData objects.
+
+---
+
+### 🧬 Step-by-Step Guide
+
+#### 1. Start from an existing AnnData object (produced by `flanders::finemap2anndata()` or `nf-flanders` nextflow pipeline)
+
 ```bash
-mamba create -p /ssu/bsssu/conda_envs_bsssu/flanders_r_test \
-    -c conda-forge -c bioconda -c R \
-    r-base=4.4 \
-    bioconductor-singlecellexperiment=1.28.0 \
-    bioconductor-zellkonverter=1.16.0 \
-    bioconductor-scrnaseq=2.20.0 \
-    r-susier=0.12.35 \
-    r-coloc=5.2.3 \
-    r-data.table=1.17.0 \
-    r-dplyr=1.1.4 \
-    r-anndata=0.7.5.6 \
-    r-matrix=1.7_3 \
-    r-optparse=1.7.5
+conda activate /ssu/bsssu/conda_envs_bsssu/flanders_r
 ```
+
+```r
+library(zellkonverter)
+library(SingleCellExperiment)
+library(flanders)
+
+# Load your AnnData
+ad <- readH5AD("/path/bla/my_anndata.h5ad", reader = "R")
+
+# Generate coloc input table
+coloc_input <- anndata2coloc_input(ad)
+
+# Save it to a file
+data.table::fwrite(coloc_input, "/path/bla/my_coloc_guide.csv")
+```
+
+Now you have:
+- ✅ `/path/bla/my_anndata.h5ad`
+- ✅ `/path/bla/my_coloc_guide.csv`
+
+These are the two required inputs for the Nextflow pipeline.
+
+---
+
+#### 2. Clone the pipeline
+```bash
+git clone git@github.com:Biostatistics-Unit-HT/flanders_nf_coloc.git
+cd flanders_nf_coloc
+```
+
+---
+
+#### 3. Modify the submission script
+
+Edit `hcoloc_anndata_example.sh` by specifying `--annData` and `coloc_pairwise_guide_table` paths to reflect your input paths and desired ID:
 
 ```bash
 #!/bin/bash
@@ -26,11 +56,28 @@ mamba create -p /ssu/bsssu/conda_envs_bsssu/flanders_r_test \
 #SBATCH --mem 8G
 #SBATCH --time 20-00:00:00
 
-module load nextflow/23.10.0 #singularity/3.8.5
+module load nextflow/23.10.0
 
 nextflow run flanders_nf_coloc/main.nf \
-        --annData "/ssu/bsssu/cardinal_finemap_coloc/anndata/finngen_OT_credset_99_Sodbofixed_2025_04_09.h5ad" \
-        --coloc_pairwise_guide_table "/group/pirastu/prj_032_fingenn_coloc/20250409_fingenn_coloc_input.csv" \
-        --coloc_id fingenn_sce \
-        -resume
+    --annData "/path/bla/my_anndata.h5ad" \
+    --coloc_pairwise_guide_table "/path/bla/my_coloc_guide.csv" \
+    --coloc_id my_output_id \
+    -resume
 ```
+
+---
+
+#### 4. Submit the job
+
+```bash
+sbatch hcoloc_anndata_example.sh
+```
+
+This will produce:
+- `results/my_output_id_coloc.tsv` with all pairwise colocalization results.
+
+---
+
+### 💡 Notes
+
+For more information, see the upstream [`flanders`](https://github.com/Biostatistics-Unit-HT/flanders_r) package.
