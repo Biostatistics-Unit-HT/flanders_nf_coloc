@@ -1,4 +1,4 @@
-## 🚀 Usage: Colocalization with Existing AnnData
+## 🚀  `flanders_nf_coloc`: Scalable Colocalization with Nextflow
 
 This pipeline wraps the `flanders` R package to perform fast and scalable colocalization analysis on precomputed AnnData objects.
 
