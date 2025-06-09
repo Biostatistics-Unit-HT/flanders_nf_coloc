@@ -12,7 +12,7 @@ workflow {
 
     // Split coloc_pairwise_guide_table into batches (chunk size specified here, e.g. 500)
     coloc_pairs_by_batches = coloc_pairwise_guide_table
-        .splitText(by: 500, keepHeader: true, file: true)
+        .splitText(by: 2000, keepHeader: true, file: true)
 
     // Run the COLOC process on the combined channel
     COLOC(annData.combine(coloc_pairs_by_batches))
