@@ -70,7 +70,7 @@ nextflow run flanders_nf_coloc/main.nf \
 #### 4. Submit the job
 
 ```bash
-sbatch hcoloc_anndata_example.sh
+sbatch flanders_nf_coloc/hcoloc_anndata_example.sh
 ```
 
 This will produce:
