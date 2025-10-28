@@ -16,8 +16,7 @@ opt = parse_args(opt_parser);
 
 ######  LOAD DATA   ######
 
-# ad <- anndata::read_h5ad(opt$annData)
-ad <- sce <- readH5AD(opt$annData, reader = "R")
+ad <- zellkonverter::readH5AD(file = opt$annData, verbose = TRUE, reader = "R")
 
 coloc_guide_table <- fread(opt$coloc_guide_table)
 
