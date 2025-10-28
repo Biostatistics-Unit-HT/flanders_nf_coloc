@@ -1,8 +1,9 @@
 suppressMessages(library(optparse))
-library(zellkonverter)
-library(SingleCellExperiment)
+suppressMessages(library(data.table))
 suppressMessages(library(flanders))
-library(data.table)
+suppressMessages(library(zellkonverter))
+suppressMessages(library(SingleCellExperiment))
+suppressMessages(library(scRNAseq))
 
 # Get arguments specified in the sbatch
 option_list <- list(
